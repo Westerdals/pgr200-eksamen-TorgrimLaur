@@ -32,7 +32,7 @@ public class DatabaseMain {
     
         public DataSource createDataSource() {
             PGPoolingDataSource dataSource = new PGPoolingDataSource();
-            dataSource.setURL(database);
+            dataSource.setUrl(database);
             dataSource.setUser(dbuser);
             dataSource.setPassword(dbpassword);
             

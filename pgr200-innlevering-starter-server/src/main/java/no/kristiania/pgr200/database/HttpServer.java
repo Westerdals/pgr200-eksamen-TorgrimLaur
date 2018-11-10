@@ -56,7 +56,7 @@ import no.kristiania.pgr200.core.DatabaseMain;
                     System.out.println(line);
                     if (line.contains("list")) {
                         String[] arguments = new String[] {"list"};
-                        //DatabaseMain.main(arguments);
+                        DatabaseMain.main(arguments);
                     }
                     line = readNextLine(input);
                     

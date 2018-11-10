@@ -82,7 +82,7 @@
         <version>2.12.4</version>
         <configuration>
           <excludes>
-            <exclude>**/InsertTalkWithInputTest.java</exclude>
+            <exclude></exclude>
           </excludes>
         </configuration>
       </plugin>
