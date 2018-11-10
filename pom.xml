@@ -3,6 +3,7 @@
   <groupId>no.kristiania.pgr200</groupId>
   <artifactId>pgr200-innlevering-starter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <name>PGR200 Mappeinnlevering</name>
   
   <dependencies>
@@ -93,4 +94,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
+  <modules>
+  	<module>pgr200-innlevering-starter-server</module>
+  	<module>pgr200-innlevering-starter-core</module>
+  	<module>pgr200-innlevering-starter-client</module>
+  </modules>
 </project>
