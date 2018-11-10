@@ -6,4 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>pgr200-innlevering-starter-server</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>no.kristiania.pgr200</groupId>
+  		<artifactId>pgr200-innlevering-starter-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
