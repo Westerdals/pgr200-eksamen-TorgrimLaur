@@ -10,16 +10,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-/*import no.kristiania.pgr200.core.ConferenceDao;
+import no.kristiania.pgr200.core.ConferenceDao;
 import no.kristiania.pgr200.core.ConferenceTalk;
-import no.kristiania.pgr200.core.DatabaseMain;*/
+import no.kristiania.pgr200.core.DatabaseMain;
 
     public class HttpServer {
     
     private ServerSocket serverSocket;
     private int port;
-   /* private ConferenceDao dao;
-    private DatabaseMain dataMain;*/
+    private ConferenceDao dao;
+    private DatabaseMain dataMain;
     
     
     public HttpServer(int port) throws IOException {
