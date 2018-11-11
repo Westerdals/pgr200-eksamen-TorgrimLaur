@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 
@@ -19,6 +20,7 @@ public class HttpRequest {
     private String method = "GET";
     private String protocol = "HTTP/1.1";
     private String path;
+    private LinkedHashMap<String, String> requestHeaders;
 
     public HttpRequest(String host, int port, String path) throws IOException {
         //Scanner scanner = new Scanner(System.in);
@@ -26,6 +28,8 @@ public class HttpRequest {
         this.host = host;
         this.port = port;
         this.path = path;
+        requestHeaders = new LinkedHashMap<>();
+        addRequestHeaders();
         //Socket clientSocket = new Socket(host, port);
         
         
@@ -41,7 +45,9 @@ public class HttpRequest {
     	outputStream = clientSocket.getOutputStream();
     	
     	writeLine((method + " " + path + " " + protocol));
-    	writeLine("Connection: close");
+    	for(String key : requestHeaders.keySet()) {
+    		writeLine((key + requestHeaders.get(key)));
+    	}
     	writeLine("");
     	outputStream.flush();
     	
@@ -57,6 +63,9 @@ public class HttpRequest {
     public void writeLine(String line) throws IOException {
     	outputStream.write((line + "\r\n").getBytes());
     }
-
     
+    public void addRequestHeaders() {
+    	requestHeaders.put("Host: ", host);
+    	requestHeaders.put("Connection: ", "close");
+    }
 }

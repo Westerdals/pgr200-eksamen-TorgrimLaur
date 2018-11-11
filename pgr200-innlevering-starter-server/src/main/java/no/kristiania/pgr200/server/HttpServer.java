@@ -22,6 +22,7 @@ import no.kristiania.pgr200.core.DatabaseMain;
     private DatabaseMain dataMain;
     
     
+    
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         start();
@@ -36,7 +37,7 @@ import no.kristiania.pgr200.core.DatabaseMain;
     public void start() throws IOException {
         new Thread(() -> {
             try {
-                serverThread(serverSocket);
+                serverThread();
             } catch (SQLException e) {
                 
                 e.printStackTrace();
@@ -44,26 +45,31 @@ import no.kristiania.pgr200.core.DatabaseMain;
         }).start();
     }
     
-    public void serverThread(ServerSocket serverSocket) throws SQLException {
+    public void serverThread() throws SQLException {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
                 
                 InputStream input = clientSocket.getInputStream();
+                OutputStream outputStream = clientSocket.getOutputStream();
                 
                 String line = readNextLine(input);
                 while(!line.isEmpty()) {
                     System.out.println(line);
-                    if (line.contains("list")) {
+                    /*if (line.contains("list")) {
                         String[] arguments = new String[] {"list"};
                         DatabaseMain.main(arguments);
                     }else if(line.contains("add")) {
                     	String[] arguments = new String[] {"add"};
                     	DatabaseMain.main(arguments);
-                    }
+                    }*/
                     line = readNextLine(input);
                     
+                    
+                    
+                    
                 }
+            writeLine(outputStream);
                 
                 clientSocket.close();
             } catch (IOException e) {
@@ -84,6 +90,10 @@ import no.kristiania.pgr200.core.DatabaseMain;
         }
         return nextLine.toString();
         
+    }
+    
+    public void writeLine(OutputStream outputStream) throws IOException {
+    	outputStream.write(("HTTP/1.1 200 OK" + "\r\n").getBytes());
     }
     
     public int getActualPort() {
