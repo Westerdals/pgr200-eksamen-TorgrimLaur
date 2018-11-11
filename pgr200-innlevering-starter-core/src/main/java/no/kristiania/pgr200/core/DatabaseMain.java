@@ -74,10 +74,31 @@ public class DatabaseMain {
             String command = args[0];
             
             if (command.equals("list")) {
-                listTalks();
-            } if (command.equals("add")) {
+                dao.listTalks();
+            }else if (command.equals("add")) {
                 dao.insertTalk("Hello", "World", "Java", "Today", "Right Now");
-            } else {
+            }else if (command.equals("insert")) {
+                String title = args[1];
+                String description = args[2];
+                String topic = args[3];
+                String day = args[4];
+                String starts = args[5];
+                dao.insertTalk(title, description, topic, day, starts);
+            }else if (command.equals("update")) {
+                String table = args[1];
+                String topic = args[2];
+                String change = args[3];
+                String cond1 = args[4];
+                String cond2 = args[5];
+                dao.updateTalk(table, topic, change, cond1, cond2);
+            }else if(command.equals("clear")){
+            	clearDB();
+            } else if (command.equals("delete")) {
+                String table = args[1];
+                String collumn = args[2];
+                String change = args[3];
+                dao.deleteTalk(table, collumn, change);
+            }else {
                 System.err.println("Unknown command");
             }
         }
@@ -94,12 +115,18 @@ public class DatabaseMain {
             return userInput;
         }
         
-        public void listTalks() throws SQLException {
+        public List<ConferenceTalk> getList() throws SQLException {
             List<ConferenceTalk> list = dao.listTalks();
-                for (ConferenceTalk talk : list) {
+               /* for (ConferenceTalk talk : list) {
                     System.out.println("Title: " + talk.getTitle() + "   " + "Description: " + talk.getDescription());
-                }
+                }*/
+            return list;
         }
-    
+        
+        public void clearDB() {
+        	Flyway flyway = new Flyway();
+            flyway.setDataSource(dataSource);
+            flyway.clean();
+        }
     
 }

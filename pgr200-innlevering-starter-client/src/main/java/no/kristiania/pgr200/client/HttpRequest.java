@@ -1,4 +1,4 @@
-package no.kristiania.pgr200.server;
+package no.kristiania.pgr200.client;
 
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class HttpRequest {
     private String method;
     private String protocol = "HTTP/1.1";
     private String path;
-    private String body;
+    private String body = "none";
     private LinkedHashMap<String, String> requestHeaders;
 
     public HttpRequest(String method, String path, int port) throws IOException {
@@ -38,7 +38,6 @@ public class HttpRequest {
         
         //clientSocket.close();
        // scanner.close();
-
     }
     
     public HttpResponse execute() throws UnknownHostException, IOException {
@@ -50,7 +49,7 @@ public class HttpRequest {
     		writeLine((key + requestHeaders.get(key)));
     	}
     	writeLine("");
-    	if(!body.isEmpty()) {
+    	if(body != null) {
     		writeLine(body);
     	}
     	outputStream.flush();
@@ -59,6 +58,9 @@ public class HttpRequest {
     	return new HttpResponse(clientSocket.getInputStream());
     }
     
+    public static void main(String[] args) throws IOException {
+    	new HttpRequest("POST", "/insert", 80);
+    }
     
     public void writeLine(String line) throws IOException {
     	outputStream.write((line + "\r\n").getBytes());

@@ -35,6 +35,7 @@ public class ConferenceDao {
             }
         }
     }
+    
 
     public void insertTalk(String title, String description, String topic, String day, String starts) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
@@ -46,6 +47,22 @@ public class ConferenceDao {
                 statement.setString(4, day);
                 statement.setString(5, starts);
                 
+                statement.executeUpdate();
+            }
+        }
+    }
+    public void updateTalk(String table, String collumn, String change, String cond1, String cond2) throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE " + table + " set " + collumn + " = " + "'"+change+"'" + " where " + cond1 + " = " + "'"+cond2+"'";
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                statement.executeUpdate();
+            }
+        }
+    }
+    public void deleteTalk(String table, String collumn, String change) throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "DELETE FROM " + table + " WHERE " + collumn + " = " + "'" + change + "'";
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 statement.executeUpdate();
             }
         }

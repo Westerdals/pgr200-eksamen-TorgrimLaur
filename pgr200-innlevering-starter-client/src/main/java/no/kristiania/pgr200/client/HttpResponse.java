@@ -1,4 +1,4 @@
-package no.kristiania.pgr200.server;
+package no.kristiania.pgr200.client;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ public class HttpResponse {
 
         String[] parts = statusLine.split(" ");
         this.statusCode = Integer.parseInt(parts[1]);
-        this.statusText = parts[2];
+        this.statusText = parts[2]; //dette er en daarlig maate aa gjore dette paa
 
         String headerLine;
         while((headerLine = readNextLine()) != null){

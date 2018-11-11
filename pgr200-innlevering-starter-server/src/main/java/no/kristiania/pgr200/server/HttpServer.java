@@ -5,12 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 import no.kristiania.pgr200.core.ConferenceDao;
 import no.kristiania.pgr200.core.ConferenceTalk;
@@ -27,6 +25,8 @@ import no.kristiania.pgr200.core.DatabaseMain;
 	private String method;
 	private HttpPath path;
 	private String protocol;
+	private String requestBody = "none";
+	private String responseBody = "none";
     
     
     
@@ -66,20 +66,27 @@ import no.kristiania.pgr200.core.DatabaseMain;
                 while(!line.isEmpty()) {
                     System.out.println(line);
                     requestLines.add(line);
-                    /*if (line.contains("list")) {
-                        String[] arguments = new String[] {"list"};
-                        DatabaseMain.main(arguments);
-                    }else if(line.contains("add")) {
-                    	String[] arguments = new String[] {"add"};
-                    	DatabaseMain.main(arguments);
-                    }*/
                     line = readNextLine(input);
                     
                 }
+                line = readNextLine(input);
+                if(!line.isEmpty()) {
+                	requestBody = line;
+                }
                 handleRequest(requestLines);
-                
+                int contentLength = responseBody.length();
+                if(responseBody.equals("none")) {
+                	contentLength = 0;
+                }
                 output.write((protocol + " " + statusCode + " " + statusMessages.get(statusCode) + "\r\n").getBytes());
+                output.write("X-Server-Name: Kristiania Web Server\r\n".getBytes());
                 output.write(("Connection: close\r\n").getBytes());
+                
+                
+               	output.write(("Content-Length: " + Integer.toString(contentLength) + "\r\n").getBytes());
+               	output.write(("\r\n").getBytes());
+               	output.write((responseBody + "\r\n").getBytes());
+                
                 
                 clientSocket.close();
             } catch (IOException e) {
@@ -104,39 +111,72 @@ import no.kristiania.pgr200.core.DatabaseMain;
     
     public void handleRequest(ArrayList<String> requestLines) throws SQLException {
     	String requestLine;
-    	statusCode = "200";
+    	statusCode = "404";
     	
     	ArrayList<String> lines = requestLines;
     	for(int i = 0; i < lines.size(); i++) {
-    		if(lines.get(i).contains("/")) {
+    		System.out.println(lines.get(i));
+    		if(lines.get(i).contains("HTTP")) {
     		requestLine = lines.get(i);
     		String[] parts = requestLine.split(" ");
     		method = parts[0];
     		path = new HttpPath(parts[1]);
     		protocol = parts[2];
-    		}else {
-    			statusCode = "404";
+    		statusCode = "200";
     		}
+    		
     	}
     	
+    	
     	if(method.equals("GET")) {
-    		//kjoer list fra database
-    		DatabaseMain db = new DatabaseMain();
-    		String[] args = {"list"};
-    		db.main(args);
-    		//list maa returnere en liste som kan skrives i body i response
+    		List<ConferenceTalk> list;
+    		
+    		String[] arguments = {"list"};
+    		DatabaseMain.main(arguments);
+    		//list = DatabaseMain.getList();
+    		
+    		
+    		
+    		//maa motta list fra database og sende som strings i body
     	}else if(method.equals("POST")) {
     		if(path.getFullPath().contains("add")) {
-    			DatabaseMain db = new DatabaseMain();
-    			String[] args = {};
-    			db.main(args);
-    			//add fields maa ligge i path
+    			
+    			String[] arguments = {"add"};
+    			DatabaseMain.main(arguments);
+    			
+    			
+    		}else if(path.getFullPath().contains("insert")) {
+    			String[] array = requestBody.split("&");
+    			HashMap<String, String> parts = new HashMap<>();
+    			for(String s : array) {
+    				int equalPos = s.indexOf("=");
+    				parts.put(s.substring(0, equalPos), s.substring(equalPos+1));
+    			}
+    			String arg2 = parts.get("title");
+    		    String arg3 = parts.get("description");
+    		    String arg4 = parts.get("topic");
+    		    String arg5 = parts.get("day");
+    		    String arg6 = parts.get("starts");
+    			String[] arguments = {"insert", arg2, arg3, arg4, arg5, arg6};
+    			//maa ha fields fra client
+    			
+    			
+    			
+    			DatabaseMain.main(arguments);
+    			statusCode = "200";
+    			responseBody = "inserted talk";
     		}else if(path.getFullPath().contains("update")) {
-    			DatabaseMain db = new DatabaseMain();
-    			String[] args = {};
-    			db.main(args);
-    			//update fields maa ligge i path
+    			
+    			String[] arguments = {"update"};
+    			DatabaseMain.main(arguments);
+    			//maa ha fields fra client
+    		}else if(path.getFullPath().contains("clear")) {
+    			String[] arguments = {"clear"};
+    			DatabaseMain.main(arguments);
+    			
     		}
+    	}else {
+    		statusCode = "404";
     	}
     	
     }

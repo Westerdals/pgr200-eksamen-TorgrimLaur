@@ -2,7 +2,7 @@ package no.kristiania.pgr200.core;
 
 public class ConferenceTalk {
     
-    private String title, description;
+	private String title, description, topic, day, starts;
 
     public String getTitle() {
         return title;
@@ -20,8 +20,34 @@ public class ConferenceTalk {
         this.description = description;
     }
     
+    public String getTopic() {
+        return topic;
+    }
+    
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+    
+    public String getDay() {
+        return day;
+    }
+    
+    public void setDay(String day) {
+        this.day = day;
+    }
+    
+    public String getStarts() {
+        return starts;
+    }
+    
+    public void setStarts(String starts) {
+        this.starts = starts;
+    }
+    
     @Override
     public String toString() {
-        return "ConferenceTalk [title=" + title + ", description="+ description + "]";
+        return "ConferenceTalk [title=" + title + ", description="+ description + ", topic=" + topic + ",day=" + day + ", starts=" + starts + "]";
     }
 }
+
+
