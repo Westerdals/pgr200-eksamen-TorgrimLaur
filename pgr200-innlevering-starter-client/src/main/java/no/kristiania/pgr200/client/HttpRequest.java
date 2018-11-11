@@ -8,6 +8,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import no.kristiania.pgr200.server.HttpResponse;
+
+
+
 public class HttpRequest {
     
     
@@ -27,6 +31,10 @@ public class HttpRequest {
         clientSocket.close();
         scanner.close();
 
+    }
+    
+    public HttpResponse execute() {
+    	
     }
     
     public static void main (String[] args) throws IOException {

@@ -1,4 +1,4 @@
-package no.kristiania.pgr200.database;
+package no.kristiania.pgr200.server;
 
 import java.io.IOException;
 import java.io.InputStream;
