@@ -19,7 +19,7 @@ public class HttpResponse {
 
         String[] parts = statusLine.split(" ");
         this.statusCode = Integer.parseInt(parts[1]);
-        this.statusText = parts[2]; //dette er en daarlig maate aa gjore dette paa
+        this.statusText = parts[2];
 
         String headerLine;
         while((headerLine = readNextLine()) != null){

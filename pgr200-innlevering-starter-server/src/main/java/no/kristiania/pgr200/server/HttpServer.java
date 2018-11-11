@@ -132,9 +132,16 @@ import no.kristiania.pgr200.core.DatabaseMain;
     		List<ConferenceTalk> list;
     		
     		String[] arguments = {"list"};
-    		DatabaseMain.main(arguments);
+    		//DatabaseMain.main(arguments);
     		//list = DatabaseMain.getList();
-    		
+    		DatabaseMain db = new DatabaseMain();
+    		db.run(arguments);
+    		list = db.getList();
+    		StringBuilder sb = new StringBuilder();
+    		for(int i = 0; i < list.size(); i ++) {
+    			sb.append(list.get(i));
+    		}
+    		responseBody = sb.toString();
     		
     		
     		//maa motta list fra database og sende som strings i body
@@ -143,7 +150,8 @@ import no.kristiania.pgr200.core.DatabaseMain;
     			
     			String[] arguments = {"add"};
     			DatabaseMain.main(arguments);
-    			
+    			statusCode = "200";
+    			responseBody = "inserted default talk";
     			
     		}else if(path.getFullPath().contains("insert")) {
     			String[] array = requestBody.split("&");

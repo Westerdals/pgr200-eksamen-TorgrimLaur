@@ -64,7 +64,7 @@ public class DatabaseMain {
         
 
 
-        private void run(String[] args) throws SQLException {
+        public void run(String[] args) throws SQLException {
             if (args.length == 0) {
                 System.out.println("Run class with argument");
                 System.exit(1);

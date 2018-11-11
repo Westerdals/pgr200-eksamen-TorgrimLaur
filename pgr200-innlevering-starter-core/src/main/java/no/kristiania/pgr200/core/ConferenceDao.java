@@ -28,6 +28,9 @@ public class ConferenceDao {
                         ConferenceTalk talk = new ConferenceTalk();
                         talk.setTitle(rs.getString("title"));
                         talk.setDescription(rs.getString("description"));
+                        talk.setTopic(rs.getString("topic"));
+                        talk.setDay(rs.getString("day"));
+                        talk.setStarts(rs.getString("starts"));
                         result.add(talk);
                     }
                     return result;
