@@ -17,6 +17,10 @@ public class HttpRequest {
     
     private String host;
     private int port;
+    private OutputStream outputStream;
+    private String method;
+    private String protocol;
+    private String path;
 
     public HttpRequest(String host, int port) throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -33,8 +37,17 @@ public class HttpRequest {
 
     }
     
-    public HttpResponse execute() {
+    public HttpResponse execute() throws UnknownHostException, IOException {
+    	Socket clientSocket = new Socket(host, port);
+    	outputStream = clientSocket.getOutputStream();
     	
+    	writeLine((method + " " + path + " " + protocol));
+    	writeLine("Connection: close");
+    	writeLine("");
+    	outputStream.flush();
+    	
+    	
+    	return new HttpResponse(clientSocket.getInputStream());
     }
     
     public static void main (String[] args) throws IOException {
@@ -42,7 +55,9 @@ public class HttpRequest {
         new HttpRequest("localhost", 80);
     }
     
-    
+    public void writeLine(String line) throws IOException {
+    	outputStream.write((line + "\r\n").getBytes());
+    }
 
     
     
