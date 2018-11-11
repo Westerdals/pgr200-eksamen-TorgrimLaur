@@ -14,18 +14,19 @@ import java.util.Scanner;
 public class HttpRequest {
     
     
-    private String host;
+    private String host = "localhost";
     private int port;
     private OutputStream outputStream;
-    private String method = "GET";
+    private String method;
     private String protocol = "HTTP/1.1";
     private String path;
+    private String body;
     private LinkedHashMap<String, String> requestHeaders;
 
-    public HttpRequest(String host, int port, String path) throws IOException {
+    public HttpRequest(String method, String path, int port) throws IOException {
         //Scanner scanner = new Scanner(System.in);
         //String input = scanner.nextLine();
-        this.host = host;
+        this.method = method;
         this.port = port;
         this.path = path;
         requestHeaders = new LinkedHashMap<>();
@@ -49,16 +50,15 @@ public class HttpRequest {
     		writeLine((key + requestHeaders.get(key)));
     	}
     	writeLine("");
+    	if(!body.isEmpty()) {
+    		writeLine(body);
+    	}
     	outputStream.flush();
     	
     	
     	return new HttpResponse(clientSocket.getInputStream());
     }
     
-    public static void main (String[] args) throws IOException {
-        System.out.println("Insert Command!");
-        new HttpRequest("localhost", 80, "");
-    }
     
     public void writeLine(String line) throws IOException {
     	outputStream.write((line + "\r\n").getBytes());
@@ -67,5 +67,9 @@ public class HttpRequest {
     public void addRequestHeaders() {
     	requestHeaders.put("Host: ", host);
     	requestHeaders.put("Connection: ", "close");
+    }
+    
+    public void setBody(String body) {
+    	this.body = body;
     }
 }

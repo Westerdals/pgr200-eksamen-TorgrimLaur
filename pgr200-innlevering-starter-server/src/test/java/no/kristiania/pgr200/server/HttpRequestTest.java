@@ -15,7 +15,7 @@ public class HttpRequestTest {
 	public void ShouldExecuteRequest() throws IOException {
 		HttpServer server = new HttpServer(0);
 		int port = server.getActualPort();
-		HttpRequest request = new HttpRequest("localhost", port, "echo?status=200");
+		HttpRequest request = new HttpRequest("localhost", port, "/echo?status=200");
 		HttpResponse response = request.execute();
 		
 		assertThat(response.getStatusCode()).isEqualTo(200);

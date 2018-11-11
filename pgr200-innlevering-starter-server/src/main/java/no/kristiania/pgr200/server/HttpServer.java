@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketImpl;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,11 +22,17 @@ import no.kristiania.pgr200.core.DatabaseMain;
     private int port;
     private ConferenceDao dao;
     private DatabaseMain dataMain;
+    private HashMap<String, String> statusMessages = new HashMap<>();
+    private String statusCode;
+	private String method;
+	private HttpPath path;
+	private String protocol;
     
     
     
     public HttpServer(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+    	addStatusMessages();
+    	serverSocket = new ServerSocket(port);
         start();
     }    
     
@@ -51,11 +59,13 @@ import no.kristiania.pgr200.core.DatabaseMain;
                 Socket clientSocket = serverSocket.accept();
                 
                 InputStream input = clientSocket.getInputStream();
-                OutputStream outputStream = clientSocket.getOutputStream();
+                OutputStream output = clientSocket.getOutputStream();
+                ArrayList<String> requestLines = new ArrayList<>();
                 
                 String line = readNextLine(input);
                 while(!line.isEmpty()) {
                     System.out.println(line);
+                    requestLines.add(line);
                     /*if (line.contains("list")) {
                         String[] arguments = new String[] {"list"};
                         DatabaseMain.main(arguments);
@@ -65,11 +75,11 @@ import no.kristiania.pgr200.core.DatabaseMain;
                     }*/
                     line = readNextLine(input);
                     
-                    
-                    
-                    
                 }
-            writeLine(outputStream);
+                handleRequest(requestLines);
+                
+                output.write((protocol + " " + statusCode + " " + statusMessages.get(statusCode) + "\r\n").getBytes());
+                output.write(("Connection: close\r\n").getBytes());
                 
                 clientSocket.close();
             } catch (IOException e) {
@@ -92,13 +102,53 @@ import no.kristiania.pgr200.core.DatabaseMain;
         
     }
     
-    public void writeLine(OutputStream outputStream) throws IOException {
-    	outputStream.write(("HTTP/1.1 200 OK" + "\r\n").getBytes());
+    public void handleRequest(ArrayList<String> requestLines) throws SQLException {
+    	String requestLine;
+    	statusCode = "200";
+    	
+    	ArrayList<String> lines = requestLines;
+    	for(int i = 0; i < lines.size(); i++) {
+    		if(lines.get(i).contains("/")) {
+    		requestLine = lines.get(i);
+    		String[] parts = requestLine.split(" ");
+    		method = parts[0];
+    		path = new HttpPath(parts[1]);
+    		protocol = parts[2];
+    		}else {
+    			statusCode = "404";
+    		}
+    	}
+    	
+    	if(method.equals("GET")) {
+    		//kjoer list fra database
+    		DatabaseMain db = new DatabaseMain();
+    		String[] args = {"list"};
+    		db.main(args);
+    		//list maa returnere en liste som kan skrives i body i response
+    	}else if(method.equals("POST")) {
+    		if(path.getFullPath().contains("add")) {
+    			DatabaseMain db = new DatabaseMain();
+    			String[] args = {};
+    			db.main(args);
+    			//add fields maa ligge i path
+    		}else if(path.getFullPath().contains("update")) {
+    			DatabaseMain db = new DatabaseMain();
+    			String[] args = {};
+    			db.main(args);
+    			//update fields maa ligge i path
+    		}
+    	}
+    	
+    }
+    
+    public void addStatusMessages() {
+    	statusMessages.put("200", "OK");
+    	statusMessages.put("404", "Not Found");
+    	statusMessages.put("500", "Internal Server Error");
     }
     
     public int getActualPort() {
     	return serverSocket.getLocalPort();
     }
-    
     
 }
