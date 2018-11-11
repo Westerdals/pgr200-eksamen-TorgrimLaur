@@ -57,5 +57,9 @@ public class HttpResponse {
         }
         return result.toString();
     }
+    
+    public int getStatusCode() {
+    	return statusCode;
+    }
 }
 

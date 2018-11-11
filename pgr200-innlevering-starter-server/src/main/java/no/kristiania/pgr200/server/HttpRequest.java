@@ -1,4 +1,4 @@
-package no.kristiania.pgr200.client;
+package no.kristiania.pgr200.server;
 
 
 import java.io.IOException;
@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import no.kristiania.pgr200.server.HttpResponse;
-
 
 
 public class HttpRequest {
@@ -18,22 +16,23 @@ public class HttpRequest {
     private String host;
     private int port;
     private OutputStream outputStream;
-    private String method;
-    private String protocol;
+    private String method = "GET";
+    private String protocol = "HTTP/1.1";
     private String path;
 
-    public HttpRequest(String host, int port) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+    public HttpRequest(String host, int port, String path) throws IOException {
+        //Scanner scanner = new Scanner(System.in);
+        //String input = scanner.nextLine();
         this.host = host;
         this.port = port;
-        Socket clientSocket = new Socket(host, port);
+        this.path = path;
+        //Socket clientSocket = new Socket(host, port);
         
         
-        clientSocket.getOutputStream().write((input + "\r\n").getBytes());
+        //clientSocket.getOutputStream().write((input + "\r\n").getBytes());
         
-        clientSocket.close();
-        scanner.close();
+        //clientSocket.close();
+       // scanner.close();
 
     }
     
@@ -52,15 +51,12 @@ public class HttpRequest {
     
     public static void main (String[] args) throws IOException {
         System.out.println("Insert Command!");
-        new HttpRequest("localhost", 80);
+        new HttpRequest("localhost", 80, "");
     }
     
     public void writeLine(String line) throws IOException {
     	outputStream.write((line + "\r\n").getBytes());
     }
 
-    
-    
-    
     
 }

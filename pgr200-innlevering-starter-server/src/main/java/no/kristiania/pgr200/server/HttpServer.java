@@ -86,7 +86,9 @@ import no.kristiania.pgr200.core.DatabaseMain;
         
     }
     
-    
+    public int getActualPort() {
+    	return serverSocket.getLocalPort();
+    }
     
     
 }
