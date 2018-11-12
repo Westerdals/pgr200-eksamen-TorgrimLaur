@@ -19,7 +19,6 @@ import no.kristiania.pgr200.core.DatabaseMain;
     private ServerSocket serverSocket;
     private int port;
     private ConferenceDao dao;
-    private DatabaseMain dataMain;
     private HashMap<String, String> statusMessages = new HashMap<>();
     private String statusCode;
 	private String method;
