@@ -84,11 +84,44 @@ public class DatabaseTest {
 		DataSource dataSource = createDataSource();
 		ConferenceDao dao = new ConferenceDao(dataSource);
 		dao.insertTalk("new", "test", "testtopic", "testday", "teststart");
-		
-		dao.updateTalk("talks", "title", "description", "topic", "day", "starts", "3");
+		ConferenceTalk insertedTalk = null;
 		List<ConferenceTalk> list = dao.listTalks();
-		ConferenceTalk talk = list.get(0);
-		assertThat(talk.getTitle()).isEqualTo("new");
+		for(ConferenceTalk t : list) {
+			if(t.getTitle().equals("new")) {
+				insertedTalk = t;
+			}
+		}
+		String id = insertedTalk.getID();
+		dao.updateTalk("talks", "title", "description", "topic", "day", "starts", id);
+		List<ConferenceTalk> newList = dao.listTalks();
+		for(ConferenceTalk talk : newList) {
+			insertedTalk = talk;
+		}
+		assertThat(insertedTalk.getTitle()).isEqualTo("title");
+	}
+	
+	@Test
+	public void shouldDeleteTalk() throws SQLException{
+		DataSource dataSource = createDataSource();
+		ConferenceDao dao = new ConferenceDao(dataSource);
+		dao.insertTalk("this", "talk", "should", "be", "deleted");
+		ConferenceTalk insertedTalk = null;
+		List<ConferenceTalk> list = dao.listTalks();
+		for(ConferenceTalk t : list) {
+			if(t.getTitle().equals("this")) {
+				insertedTalk = t;
+			}
+		}
+		assertThat(insertedTalk.getTitle()).isEqualTo("this");
+		dao.deleteTalk("talks", insertedTalk.getID());
+		boolean checked = false;
+		List<ConferenceTalk> newList = dao.listTalks();
+		for(ConferenceTalk t : newList) {
+			if(t.getTitle().equals("this")) {
+				checked = true;
+			}
+		}
+		assertThat(checked).isEqualTo(false);
 	}
 	
 }
