@@ -24,20 +24,13 @@ public class HttpRequest {
     private LinkedHashMap<String, String> requestHeaders;
 
     public HttpRequest(String method, String path, int port) throws IOException {
-        //Scanner scanner = new Scanner(System.in);
-        //String input = scanner.nextLine();
+        
         this.method = method;
         this.port = port;
         this.path = path;
         requestHeaders = new LinkedHashMap<>();
         addRequestHeaders();
-        //Socket clientSocket = new Socket(host, port);
-        
-        
-        //clientSocket.getOutputStream().write((input + "\r\n").getBytes());
-        
-        //clientSocket.close();
-       // scanner.close();
+     
     }
     
     public HttpResponse execute() throws UnknownHostException, IOException {
@@ -59,7 +52,7 @@ public class HttpRequest {
     }
     
     public static void main(String[] args) throws IOException {
-    	new HttpRequest("POST", "/insert", 80);
+    	new HttpRequest("POST", "/add", 80);
     }
     
     public void writeLine(String line) throws IOException {
@@ -73,5 +66,15 @@ public class HttpRequest {
     
     public void setBody(String body) {
     	this.body = body;
+    }
+    public String getBody() {
+    	return body;
+    }
+    
+    public void setHost(String host) {
+    	this.host = host;
+    }
+    public String getHost() {
+    	return host;
     }
 }

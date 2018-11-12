@@ -21,14 +21,14 @@ public class HttpRequestTest {
 		port = server.getActualPort();
 	}
 	
-	//@Test
-	/*public void ShouldExecuteRequest() throws IOException {
+	@Test
+	public void ShouldExecuteRequest() throws IOException {
 		
 		HttpRequest request = new HttpRequest("GET", "/echo?status=200", port);
 		HttpResponse response = request.execute();
 		
 		assertThat(response.getStatusCode()).isEqualTo(200);
-	}*/
+	}
 	@Test
 	public void shouldParseStatusLine() throws IOException {
 		HttpRequest request = new HttpRequest("urlecho.appspot.com", "/echo?status=404", port);
@@ -36,13 +36,12 @@ public class HttpRequestTest {
 	    assertThat(response.getStatusCode()).isEqualTo(404);
 	    assertThat(response.getStatusText()).isEqualTo("Not Found");
 	}
-	/*@Test
+	@Test
 	public void shouldReadBody() throws IOException {
 		HttpRequest request = new HttpRequest("GET", "/echo?status=200", port);
-		request.setBody("Hello World");
 		HttpResponse response = request.execute();
-		assertThat(response.getBody()).isEqualTo("Hello World");
+		assertThat(response.getBody()).isEqualTo("status 200");
 		
-	}*/
+	}
 	
 }

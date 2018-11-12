@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import no.kristiania.pgr200.core.ConferenceDao;
@@ -121,27 +122,38 @@ import no.kristiania.pgr200.core.DatabaseMain;
     		method = parts[0];
     		path = new HttpPath(parts[1]);
     		protocol = parts[2];
-    		statusCode = "200";
+    		//statusCode = "200";
     		}
     		
     	}
     	
     	
     	if(method.equals("GET")) {
-    		List<ConferenceTalk> list;
+    		if(path.getFullPath().contains("list")) {
+    			List<ConferenceTalk> list;
     		
-    		String[] arguments = {"list"};
+    			String[] arguments = {"list"};
     		
-    		DatabaseMain db = new DatabaseMain();
-    		db.run(arguments);
-    		list = db.getList();
-    		StringBuilder sb = new StringBuilder();
-    		for(int i = 0; i < list.size(); i ++) {
-    			sb.append(list.get(i));
+    			DatabaseMain db = new DatabaseMain();
+    			db.run(arguments);
+    			list = db.getList();
+    			StringBuilder sb = new StringBuilder();
+    			for(int i = 0; i < list.size(); i ++) {
+    				sb.append(list.get(i));
+    			}
+    			responseBody = sb.toString();
+    		
+    		}else if(path.getFullPath().contains("echo")) {
+    			LinkedHashMap<String,String> pathQuery = path.getMap();
+    			StringBuilder sb = new StringBuilder();
+    			for(String key : pathQuery.keySet()) {
+    				sb.append(key + " " + pathQuery.get(key));
+    			}
+    			System.out.println(sb.toString());
+    			responseBody = sb.toString();
+    			//responseBody = requestBody;
+    			statusCode = "200";
     		}
-    		responseBody = sb.toString();
-    		
-    		
     		
     	}else if(method.equals("POST")) {
     		if(path.getFullPath().contains("add")) {

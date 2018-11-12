@@ -15,15 +15,19 @@ public class HttpPath {
     }
     
     public void handlePath() {
-        if(fullPath.contains("\\?")) {
-            String[] parts = fullPath.split("\\?");
-            path = parts[1];
+        if(fullPath.contains("?")) {
+        	int questionPos = fullPath.indexOf('?');
+            //String[] parts = fullPath.split("\\?");
+            path = fullPath.substring(questionPos+1);
             if(path.contains("&")) {
                 String[] dataParts = path.split("&");
                 for(String s : dataParts) {
                     int equalPos = s.indexOf("=");
                     data.put(s.substring(0, equalPos), s.substring(equalPos+1));
                 }
+            }else {
+            	int equalPos = path.indexOf("=");
+            	data.put(path.substring(0, equalPos), path.substring(equalPos+1));
             }
         }
     }
