@@ -31,6 +31,7 @@ public class ConferenceDao {
                         talk.setTopic(rs.getString("topic"));
                         talk.setDay(rs.getString("day"));
                         talk.setStarts(rs.getString("starts"));
+                        talk.setID(rs.getString("id"));
                         result.add(talk);
                     }
                     return result;
@@ -54,14 +55,25 @@ public class ConferenceDao {
             }
         }
     }
-    public void updateTalk(String table, String collumn, String change, String cond1, String cond2) throws SQLException {
+    /*public void updateTalk(String table, String collumn, String change, String cond1, String cond2) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "UPDATE " + table + " set " + collumn + " = " + "'"+change+"'" + " where " + cond1 + " = " + "'"+cond2+"'";
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 statement.executeUpdate();
             }
         }
+    }*/
+    
+    public void updateTalk(String table, String change1, String change2, String change3, String change4, String change5, String id) throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE " + table + " set title = " + "'"+change1+"', description = " + "'"+change2+"', topic = " + "'"+change3+"', day = "
+                    +"'"+change4+"', starts = " + "'"+change5+"' where ID = " + id;
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                statement.executeUpdate();
+            }
+        }
     }
+    
     public void deleteTalk(String table, String collumn, String change) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "DELETE FROM " + table + " WHERE " + collumn + " = " + "'" + change + "'";

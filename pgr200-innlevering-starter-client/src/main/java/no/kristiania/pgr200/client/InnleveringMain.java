@@ -30,7 +30,9 @@ public class InnleveringMain {
 			
 			HttpRequest request = new HttpRequest(method, path, port);
 			request.execute();
-		}else if(command.equals("insert")) {
+			
+		}
+		else if(command.equals("insert")) {
 			String method = "POST";
 			String path = "/insert";
 			String body;
@@ -40,41 +42,69 @@ public class InnleveringMain {
 			String description = input.nextLine();
 			System.out.println("add topic");
 			String topic = input.nextLine();
-			String day = "monday";
-			String starts = "now";
+			System.out.println("add conference day");
+			String day = input.nextLine();
+			System.out.println("add starttime");
+			String starts = input.nextLine();
 			
 			body = "title=" + title + "&description=" + description + "&topic=" + topic + "&day=" + day + "&starts=" + starts;
-			
 			
 			HttpRequest request = new HttpRequest(method, path, port);
 			request.setBody(body);
 			request.execute();
-		}else if(command.equals("update")) {
+			
+		}
+		else if(command.equals("update")) {
 			String method = "POST";
 			String path = "/update";
 			String body;
 			
-			System.out.println("write title of talk you want to update: ");
-			String updateTalk = input.nextLine();
-			System.out.println("add new title: ");
-			String title = input.nextLine();
-			System.out.println("add new description: ");
-			String description = input.nextLine();
-			System.out.println("add new topic");
-			String topic = input.nextLine();
+			/*
+			 * sette table som skal endres
+			 * sette hvilke felter som skal endres
+			 * sette condition for hvilket felt som skal endres
+			 */
 			
-			body = "title=" + title + "&description=" + description + "&topic=" + topic;
+			//String table, String change1, String change2, String change3, String change4, String change5, String id
+			
+			System.out.println("what table do you want to update?");
+			String table = input.nextLine();
+			System.out.println("write new title");
+			String title = input.nextLine();
+			System.out.println("Write new description: ");
+			String description = input.nextLine();
+			System.out.println("Write new topic: ");
+			String topic = input.nextLine();
+			System.out.println("Write what conference day the talk will be held");
+			String day = input.nextLine();
+			System.out.println("Write new starttime");
+			String starts = input.nextLine();
+			System.out.println("write id of talk you want to update: ");
+			String id = input.nextLine();
+			
+			body = "table=" + table + "&title=" + title + "&description=" + description + "&topic=" + topic + "&day=" + day + "&starts=" + starts + "&id=" + id;
 			
 			HttpRequest request = new HttpRequest(method, path, port);
 			request.setBody(body);
 			request.execute();
-		}else if(command.equalsIgnoreCase("clear")) {
+			
+		}
+		else if(command.equalsIgnoreCase("clear")) {
 			String method = "POST";
 			String path = "/clear";
 			
 			HttpRequest request = new HttpRequest(method, path, port);
 			request.execute();
-		}else {
+			
+		}
+		else if(command.equals("add")) {
+			String method = "POST";
+			String path = "/add";
+			
+			HttpRequest request = new HttpRequest(method, path, port);
+			request.execute();
+		}
+		else {
 			String error = "Unknown command. Try ";
 			StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < acceptedCommands.size(); i++) {

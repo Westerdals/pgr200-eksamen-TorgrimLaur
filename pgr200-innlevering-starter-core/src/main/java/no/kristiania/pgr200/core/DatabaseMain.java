@@ -86,11 +86,13 @@ public class DatabaseMain {
                 dao.insertTalk(title, description, topic, day, starts);
             }else if (command.equals("update")) {
                 String table = args[1];
-                String topic = args[2];
-                String change = args[3];
-                String cond1 = args[4];
-                String cond2 = args[5];
-                dao.updateTalk(table, topic, change, cond1, cond2);
+                String title = args[2];
+                String description = args[3];
+                String topic = args[4];
+                String day = args[5];
+                String starts = args[6];
+                String id = args[7];
+                dao.updateTalk(table, title, description, topic, day, starts, id);
             }else if(command.equals("clear")){
             	clearDB();
             } else if (command.equals("delete")) {
@@ -117,9 +119,7 @@ public class DatabaseMain {
         
         public List<ConferenceTalk> getList() throws SQLException {
             List<ConferenceTalk> list = dao.listTalks();
-               /* for (ConferenceTalk talk : list) {
-                    System.out.println("Title: " + talk.getTitle() + "   " + "Description: " + talk.getDescription());
-                }*/
+              
             return list;
         }
         

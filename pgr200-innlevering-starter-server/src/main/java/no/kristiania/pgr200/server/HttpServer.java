@@ -132,8 +132,7 @@ import no.kristiania.pgr200.core.DatabaseMain;
     		List<ConferenceTalk> list;
     		
     		String[] arguments = {"list"};
-    		//DatabaseMain.main(arguments);
-    		//list = DatabaseMain.getList();
+    		
     		DatabaseMain db = new DatabaseMain();
     		db.run(arguments);
     		list = db.getList();
@@ -144,14 +143,14 @@ import no.kristiania.pgr200.core.DatabaseMain;
     		responseBody = sb.toString();
     		
     		
-    		//maa motta list fra database og sende som strings i body
+    		
     	}else if(method.equals("POST")) {
     		if(path.getFullPath().contains("add")) {
     			
     			String[] arguments = {"add"};
     			DatabaseMain.main(arguments);
     			statusCode = "200";
-    			responseBody = "inserted default talk";
+    			responseBody = "Inserted default talk. List to view.";
     			
     		}else if(path.getFullPath().contains("insert")) {
     			String[] array = requestBody.split("&");
@@ -172,16 +171,34 @@ import no.kristiania.pgr200.core.DatabaseMain;
     			
     			DatabaseMain.main(arguments);
     			statusCode = "200";
-    			responseBody = "inserted talk";
+    			responseBody = "Inserted talk. List to view.";
     		}else if(path.getFullPath().contains("update")) {
+    			String[] array = requestBody.split("&");
+    			HashMap<String, String> parts = new HashMap<>();
+    			for(String s : array) {
+    				int equalPos = s.indexOf("=");
+    				parts.put(s.substring(0, equalPos), s.substring(equalPos+1));
+    			}
     			
-    			String[] arguments = {"update"};
+    			String arg1 = parts.get("table");
+    			String arg2 = parts.get("title");
+    			String arg3 = parts.get("description");
+    			String arg4 = parts.get("topic");
+    			String arg5 = parts.get("day");
+    			String arg6 = parts.get("starts");
+    			String arg7 = parts.get("id");
+    			String[] arguments = {"update", arg1, arg2, arg3, arg4, arg5, arg6, arg7};
     			DatabaseMain.main(arguments);
-    			//maa ha fields fra client
+    			
+    			responseBody = "Updated talks. List to view.";
+    			statusCode = "200";
+    			
     		}else if(path.getFullPath().contains("clear")) {
     			String[] arguments = {"clear"};
     			DatabaseMain.main(arguments);
     			
+    			responseBody = "Database was reset.";
+    			statusCode = "200";
     		}
     	}else {
     		statusCode = "404";

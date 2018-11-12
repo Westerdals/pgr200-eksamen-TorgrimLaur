@@ -1,0 +1,1 @@
+alter table talks add column ID serial primary key;
