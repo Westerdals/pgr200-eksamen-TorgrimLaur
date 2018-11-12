@@ -11,7 +11,7 @@ public class InnleveringMain {
 	private int port = 80;//fiks dette etterpaa
 	
 	public static void main(String[] args) throws IOException {
-
+		new InnleveringMain();
 		
 	}
 	

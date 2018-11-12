@@ -22,4 +22,11 @@ public class HttpRequestTest {
 		
 		assertThat(response.getStatusCode()).isEqualTo(200);
 	}
+	@Test
+	   public void shouldParseStatusLine() throws IOException {
+	       HttpRequest request = new HttpRequest("urlecho.appspot.com", "/echo?status=404", 80);
+	       HttpResponse response = request.execute();
+	       assertThat(response.getStatusCode()).isEqualTo(404);
+	       assertThat(response.getStatusText()).isEqualTo("Not Found");
+	   }
 }
