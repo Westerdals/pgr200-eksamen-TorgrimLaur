@@ -13,13 +13,13 @@ import java.io.IOException;
 public class HttpRequestTest {
 
 	
-	/*@Test
+	@Test
 	public void ShouldExecuteRequest() throws IOException {
 		HttpServer server = new HttpServer(0);
 		int port = server.getActualPort();
-		HttpRequest request = new HttpRequest("GET", "/echo?status=200", port);
+		HttpRequest request = new HttpRequest("GET", "/list", port);
 		HttpResponse response = request.execute();
 		
 		assertThat(response.getStatusCode()).isEqualTo(200);
-	}*/
+	}
 }

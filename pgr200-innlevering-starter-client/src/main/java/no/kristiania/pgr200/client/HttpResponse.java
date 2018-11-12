@@ -2,6 +2,7 @@ package no.kristiania.pgr200.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,15 +12,17 @@ public class HttpResponse {
     private String statusText;
     private InputStream inputStream;
     private Map<String, String> headers = new LinkedHashMap<>();
+    private HashMap<String, String> statusMessages = new HashMap<>();
 
 
     public HttpResponse(InputStream inputStream) throws IOException {
-        this.inputStream = inputStream;
+        addStatusMessages();
+    	this.inputStream = inputStream;
         String statusLine = readNextLine();
 
         String[] parts = statusLine.split(" ");
         this.statusCode = Integer.parseInt(parts[1]);
-        this.statusText = parts[2];
+        this.statusText = statusMessages.get(parts[1]);
 
         String headerLine;
         while((headerLine = readNextLine()) != null){
@@ -60,6 +63,15 @@ public class HttpResponse {
     
     public int getStatusCode() {
     	return statusCode;
+    }
+    public String getStatusText() {
+    	return statusText;
+    }
+    
+    public void addStatusMessages() {
+    	statusMessages.put("200", "OK");
+    	statusMessages.put("404", "Not Found");
+    	statusMessages.put("500", "Internal Server Error");
     }
 }
 
