@@ -1,3 +1,48 @@
+
+Torgrim Lauritzen og Michael Hansen Aakervik // lautor17 & aakmic17 
+
+parprogrammeringsvideo : https://youtu.be/rHo2iN-5nF4
+
+Refleksjonsnotat:
+Vi har jobbet ganske hardt med denne oppgaven. Slet en del med Server i forkant av eksamen og hadde derfor litt å ta igjen på den biten. Vi mener at vi har fått til en god server etterhvert som tar i mot, behandler og sender videre data over sockets. Vi har jobbet sammen gjennom hele perioden, i blandt med hver vår modul, men også sammen(parprogrammering) når vi har hatt behov for det. Siden vi har jobbet med hver våre moduler har vi fått god trening i å ta hensyn til koden som den andre jobber med slik at det kan sys sammen uten store utfordringer. Dette har gjort at vi må diskutere valg vi tar og ha god kommunikasjon underveis.Vi mener at vi har fått til en del kommandoer til databasen noe som løfter vår oppgave noen hakk. Vi mener basert på minimumskrav fra beskrivelsen at vi  har vi mer enn oppnådd krav for C og har en del funksjonalitet som tilfredsstiller krav for B. 
+
+Prosjektet kjører på Travis CI og har en del tester.
+Formatteringen på koden er god.
+ReadMe demonstrerer tydelig hvordan programmet kjøres.
+Programmet kjører uten alvorlige feil og man kan gjøre mer en forventet mengde kall til databasen.
+
+
+´´´´bash
+> mvn test
+> mvn install
+> oppdater innlevering.properties med database settings
+> gå inn i mappen til modulen du skal kjøre før du kjører jarfilen
+> java -jar target/pgr200-innlevering-starter-server-0.0.1-SNAPSHOT.jar
+> åpne nytt terminalvindu
+> java -jar target/pgr200-innlevering-starter-client-0.0.1-SNAPSHOT.jar
+- List  //  Returnere en liste over alle foredrag i database
+- Add   //  Legger til en predefinert Talk
+- Insert //  Legger inn en talk der brukeren fyller inn kolonner: -title -desc - topic -dag og -tidspunkt
+- Update //  Lar bruker oppdatere alle felter i en talk basert på unik ID
+- Delete //  Lar bruker slette en talk basert på unik ID
+- Clear  //  Lar brukeren droppe tabell
+
+// merk at client sin jar fil må kjøres på nytt for hver kommando som skal kjøres
+
+Tilbakemelding gitt til og fått fra Marius Hagelin og Jan-Kristian Evjen
+
+
+
+
+
+
+
+
+
+
+
+
+
 # PGR200 Hovedinnlevering
 
 Innleveringsfrist: 12. november kl 09:00. **Viktig:** WiseFlow *stenger* når fristen er ute - lever i tide.

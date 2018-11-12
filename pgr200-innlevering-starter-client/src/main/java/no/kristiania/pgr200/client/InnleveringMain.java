@@ -8,7 +8,7 @@ public class InnleveringMain {
 	private String command;
 	private Scanner input = new Scanner(System.in);
 	private ArrayList<String> acceptedCommands;
-	private int port = 80;//fiks dette etterpaa
+	private int port = 80;
 	
 	public static void main(String[] args) throws IOException {
 		new InnleveringMain();
