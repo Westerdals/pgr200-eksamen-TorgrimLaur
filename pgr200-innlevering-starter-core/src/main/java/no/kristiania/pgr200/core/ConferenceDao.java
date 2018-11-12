@@ -55,14 +55,7 @@ public class ConferenceDao {
             }
         }
     }
-    /*public void updateTalk(String table, String collumn, String change, String cond1, String cond2) throws SQLException {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "UPDATE " + table + " set " + collumn + " = " + "'"+change+"'" + " where " + cond1 + " = " + "'"+cond2+"'";
-            try (PreparedStatement statement = conn.prepareStatement(sql)) {
-                statement.executeUpdate();
-            }
-        }
-    }*/
+  
     
     public void updateTalk(String table, String change1, String change2, String change3, String change4, String change5, String id) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
@@ -74,9 +67,10 @@ public class ConferenceDao {
         }
     }
     
-    public void deleteTalk(String table, String collumn, String change) throws SQLException {
+ 
+    public void deleteTalk(String table, String id) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "DELETE FROM " + table + " WHERE " + collumn + " = " + "'" + change + "'";
+            String sql = "DELETE FROM " + table + " WHERE id = "+id;
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 statement.executeUpdate();
             }

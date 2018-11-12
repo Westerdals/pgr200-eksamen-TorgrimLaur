@@ -104,6 +104,21 @@ public class InnleveringMain {
 			HttpRequest request = new HttpRequest(method, path, port);
 			request.execute();
 		}
+		else if(command.equals("delete")) {
+			String method = "POST";
+			String path = "/delete";
+			
+			System.out.println("What table do you want to delete from?");
+			String table = input.nextLine();
+			System.out.println("Write id of talk you want to delete");
+			String id = input.nextLine();
+			
+			String body = "table=" + table + "&id=" +id;
+			
+			HttpRequest request = new HttpRequest(method, path, port);
+			request.setBody(body);
+			request.execute();
+		}
 		else {
 			String error = "Unknown command. Try ";
 			StringBuilder sb = new StringBuilder();

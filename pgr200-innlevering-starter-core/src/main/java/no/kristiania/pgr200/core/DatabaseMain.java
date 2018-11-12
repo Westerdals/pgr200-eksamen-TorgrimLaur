@@ -97,9 +97,9 @@ public class DatabaseMain {
             	clearDB();
             } else if (command.equals("delete")) {
                 String table = args[1];
-                String collumn = args[2];
-                String change = args[3];
-                dao.deleteTalk(table, collumn, change);
+                String id = args[2];
+                
+                dao.deleteTalk(table, id);
             }else {
                 System.err.println("Unknown command");
             }

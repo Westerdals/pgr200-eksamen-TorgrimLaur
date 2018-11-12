@@ -193,13 +193,31 @@ import no.kristiania.pgr200.core.DatabaseMain;
     			responseBody = "Updated talks. List to view.";
     			statusCode = "200";
     			
-    		}else if(path.getFullPath().contains("clear")) {
+    		}
+    		else if(path.getFullPath().contains("clear")) {
     			String[] arguments = {"clear"};
     			DatabaseMain.main(arguments);
     			
     			responseBody = "Database was reset.";
     			statusCode = "200";
     		}
+    		else if(path.getFullPath().contains("delete")) {
+        		String[] array = requestBody.split("&");
+        		HashMap<String, String> parts = new HashMap<>();
+        		for(String s : array) {
+        			int equalPos = s.indexOf("=");
+        			parts.put(s.substring(0, equalPos), s.substring(equalPos+1));
+        		}
+        		
+        		String arg1 = parts.get("table");
+        		String arg2 = parts.get("id");
+        		String[] arguments = {"delete", arg1, arg2};
+        		
+        		DatabaseMain.main(arguments);
+        		
+        		responseBody = "talk with id " + arg2 + " was deleted";
+        		statusCode = "200";
+        	}
     	}else {
     		statusCode = "404";
     	}
