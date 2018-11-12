@@ -13,6 +13,7 @@ public class HttpResponse {
     private InputStream inputStream;
     private Map<String, String> headers = new LinkedHashMap<>();
     private HashMap<String, String> statusMessages = new HashMap<>();
+    private String body;
 
 
     public HttpResponse(InputStream inputStream) throws IOException {
@@ -35,7 +36,7 @@ public class HttpResponse {
             headers.put(headerName, headerValue);
         }
 
-        String body = readNextLine();
+        body = readNextLine();
 
 
         System.out.println("HTTP/1.1 " + statusCode + " " + statusText);
@@ -72,6 +73,9 @@ public class HttpResponse {
     	statusMessages.put("200", "OK");
     	statusMessages.put("404", "Not Found");
     	statusMessages.put("500", "Internal Server Error");
+    }
+    public String getBody() {
+    	return body;
     }
 }
 
